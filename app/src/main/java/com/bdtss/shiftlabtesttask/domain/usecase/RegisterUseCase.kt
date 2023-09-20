@@ -6,6 +6,6 @@ class RegisterUseCase {
     fun execute(data: RegistrationData): Boolean {
         //TODO: add checks of data
         //TODO: hash passwords
-        return data.password==data.passwordConfirmation
+        return data.password == data.passwordConfirmation
     }
 }

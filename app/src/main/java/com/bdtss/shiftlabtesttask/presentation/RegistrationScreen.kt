@@ -10,59 +10,52 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import java.lang.ref.Reference
-import java.lang.reflect.TypeVariable
 import java.util.*
 
 @Composable
-fun RegistrationScreen(navController: NavController, registrationViewModel: RegistrationViewModel) {
-    var name by remember {
-        mutableStateOf("")
-    }
-    var surname by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
-    var passwordConfirmation by remember {
-        mutableStateOf("")
-    }
+fun RegistrationScreen(
+    navController: NavController,
+    registrationViewModel: RegistrationViewModel
+) {
+    val name = registrationViewModel.name.collectAsState()
+    var surname = registrationViewModel.surname.collectAsState()
+    var password = registrationViewModel.password.collectAsState()
+    var passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
+
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 50.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         TextFieldCard(
             text = "Name:",
-            name,
-            onValueChange = { name = it })
+            value = name.value
+        ) { registrationViewModel.setName(it) }
         TextFieldCard(
             text = "Surname:",
-            surname,
-            onValueChange = { surname = it })
+            surname.value
+        ) { registrationViewModel.setSurname(it) }
         TextFieldCard(
             text = "Password:",
-            password,
-            onValueChange = { password = it })
+            password.value
+        ) { registrationViewModel.setPassword(it) }
         TextFieldCard(
             text = "Please, repeat password:",
-            passwordConfirmation,
-            onValueChange = { passwordConfirmation = it })
+            passwordConfirmation.value
+        ) { registrationViewModel.setPasswordConfirmation(it) }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
                 Log.e("AAA", "Register button pushed")
                 registrationViewModel.register(
-                    name,
-                    surname,
+                    name.value,
+                    surname.value,
                     Date(1),
-                    password,
-                    passwordConfirmation
+                    password.value,
+                    passwordConfirmation.value
                 )
-                //TODO: navController.navigate(mainScreen...)
             },
             modifier = Modifier.align(Alignment.End)
         ) {

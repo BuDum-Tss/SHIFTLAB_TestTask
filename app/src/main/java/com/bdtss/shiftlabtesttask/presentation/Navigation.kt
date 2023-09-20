@@ -6,11 +6,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun Navigation(registrationViewModel:RegistrationViewModel) {
+fun Navigation(registrationViewModel: RegistrationViewModel) {
     val navController = rememberNavController()
-    NavHost(navController=navController, startDestination = Screen.RegistrationScreen.route){
-        composable(route = Screen.RegistrationScreen.route){
-            RegistrationScreen(navController = navController,registrationViewModel)
+    NavHost(navController = navController, startDestination = Screen.RegistrationScreen.route) {
+        composable(route = Screen.RegistrationScreen.route) {
+            RegistrationScreen(navController = navController, registrationViewModel)
         }
     }
 }
