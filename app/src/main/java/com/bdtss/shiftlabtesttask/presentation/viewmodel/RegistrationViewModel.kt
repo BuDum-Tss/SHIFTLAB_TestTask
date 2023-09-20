@@ -1,4 +1,4 @@
-package com.bdtss.shiftlabtesttask.presentation
+package com.bdtss.shiftlabtesttask.presentation.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue

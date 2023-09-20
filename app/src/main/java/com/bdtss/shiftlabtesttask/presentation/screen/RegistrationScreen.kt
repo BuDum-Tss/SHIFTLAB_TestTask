@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 import java.util.*
 
 @Composable
