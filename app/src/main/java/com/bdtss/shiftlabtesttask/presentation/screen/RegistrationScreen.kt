@@ -19,16 +19,16 @@ fun RegistrationScreen(
     registrationViewModel: RegistrationViewModel
 ) {
     val name = registrationViewModel.name.collectAsState()
-    var surname = registrationViewModel.surname.collectAsState()
-    var password = registrationViewModel.password.collectAsState()
-    var passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
+    val surname = registrationViewModel.surname.collectAsState()
+    val password = registrationViewModel.password.collectAsState()
+    val passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 50.dp)
-    ) {
+     Column(
+            verticalArrangement = Arrangement.Center,
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 50.dp)
+    ){
         Spacer(modifier = Modifier.height(50.dp))
         TextFieldCard(
             text = "Name:",
@@ -50,13 +50,10 @@ fun RegistrationScreen(
         Button(
             onClick = {
                 Log.e("AAA", "Register button pushed")
-                registrationViewModel.register(
-                    name.value,
-                    surname.value,
-                    Date(1),
-                    password.value,
-                    passwordConfirmation.value
-                )
+                registrationViewModel.register()
+                if (registrationViewModel.registrationIsSuccessful.value){
+                    navController.navigate(Screen.MainScreen.route)
+                }
             },
             modifier = Modifier.align(Alignment.End)
         ) {
@@ -71,7 +68,6 @@ fun TextFieldCard(text: String, value: String, onValueChange: (String) -> Unit) 
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier =
-        Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     )
 }
