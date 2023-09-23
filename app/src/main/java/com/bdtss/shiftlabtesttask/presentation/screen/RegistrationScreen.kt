@@ -1,17 +1,22 @@
-package com.bdtss.shiftlabtesttask.presentation;
+package com.bdtss.shiftlabtesttask.presentation.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bdtss.shiftlabtesttask.presentation.Screen
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
-import java.util.*
+import com.bdtss.shiftlabtesttask.ui.theme.Purple700
 
 @Composable
 fun RegistrationScreen(
@@ -23,34 +28,45 @@ fun RegistrationScreen(
     val password = registrationViewModel.password.collectAsState()
     val passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
 
-     Column(
-            verticalArrangement = Arrangement.Center,
-    modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 50.dp)
-    ){
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 50.dp)
+    ) {
         Spacer(modifier = Modifier.height(50.dp))
+        Text(
+            text = "Register",
+            fontSize = 30.sp,
+            color = Purple700,
+            modifier = Modifier.fillMaxWidth().align(Alignment.Start)
+        )
         TextFieldCard(
-            text = "Name:",
-            value = name.value
-        ) { registrationViewModel.setName(it) }
+            labelText ="Name",
+            placeholderText = "Enter your name",
+            value = name.value,
+            onValueChange = { registrationViewModel.setName(it) }
+        )
         TextFieldCard(
-            text = "Surname:",
+            labelText ="Surname",
+            placeholderText = "Enter your surname",
             surname.value
         ) { registrationViewModel.setSurname(it) }
-        TextFieldCard(
-            text = "Password:",
-            password.value
-        ) { registrationViewModel.setPassword(it) }
-        TextFieldCard(
-            text = "Please, repeat password:",
-            passwordConfirmation.value
-        ) { registrationViewModel.setPasswordConfirmation(it) }
+        PasswordFieldCard(
+            labelText = "Password",
+            placeholderText = "Enter the password",
+            value = password.value,
+            onValueChange = { registrationViewModel.setPassword(it) })
+        PasswordFieldCard(
+            labelText = "Password confirmation",
+            placeholderText = "Please, repeat the password",
+            value = passwordConfirmation.value,
+            onValueChange = { registrationViewModel.setPassword(it) })
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
                 registrationViewModel.register()
-                if (registrationViewModel.registrationIsSuccessful.value){
+                if (registrationViewModel.registrationIsSuccessful.value) {
                     navController.navigate(Screen.MainScreen.route)
                 }
             },
@@ -62,11 +78,53 @@ fun RegistrationScreen(
 }
 
 @Composable
-fun TextFieldCard(text: String, value: String, onValueChange: (String) -> Unit) {
-    Text(text = text)
+fun TextFieldCard(
+    labelText: String,
+    placeholderText: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    Spacer(modifier = Modifier.height(8.dp))
     TextField(
         value = value,
         onValueChange = onValueChange,
+        label = { Text(text = labelText) },
+        placeholder = { Text(text = placeholderText) },
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun PasswordFieldCard(
+    labelText: String,
+    placeholderText: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    var showPassword by remember {
+        mutableStateOf(false)
+    }
+    Spacer(modifier = Modifier.height(8.dp))
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = labelText) },
+        placeholder = { Text(text = placeholderText) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Outlined.Lock,
+                contentDescription = "Lock Icon"
+            )
+        },
+        trailingIcon = {
+            IconButton(onClick = { showPassword = !showPassword }) {
+                Icon(
+                    imageVector = if (showPassword) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                    contentDescription = if (showPassword) "Show Password" else "Hide Password"
+                )
+            }
+        },
+        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
         modifier = Modifier.fillMaxWidth()
     )
 }

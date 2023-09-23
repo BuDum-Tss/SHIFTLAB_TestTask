@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bdtss.shiftlabtesttask.presentation.screen.MainScreen
+import com.bdtss.shiftlabtesttask.presentation.screen.RegistrationScreen
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.MainViewModel
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 
