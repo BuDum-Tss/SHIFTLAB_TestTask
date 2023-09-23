@@ -18,7 +18,7 @@ class RegisterUseCase(private val userRepository: UserRepository) {
                     data.password
                 )
             )
-            println("Data: $data")
+            println("Data: "+data.name)
         }
         return result
     }

@@ -49,7 +49,6 @@ fun RegistrationScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                Log.e("AAA", "Register button pushed")
                 registrationViewModel.register()
                 if (registrationViewModel.registrationIsSuccessful.value){
                     navController.navigate(Screen.MainScreen.route)

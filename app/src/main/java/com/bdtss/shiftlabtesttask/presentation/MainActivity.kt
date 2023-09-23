@@ -12,11 +12,9 @@ import com.bdtss.shiftlabtesttask.presentation.viewmodel.MainViewModel
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 
 class MainActivity : ComponentActivity() {
-    private lateinit var vm: RegistrationViewModel
     private val userRepository by lazy(LazyThreadSafetyMode.NONE) {
         UserRepositoryImpl(userStorage = SharedPrefUserStorage(this))
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val registrationViewModel = ViewModelProvider(
             this,

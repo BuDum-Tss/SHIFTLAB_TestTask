@@ -1,11 +1,5 @@
 package com.bdtss.shiftlabtesttask.presentation.viewmodel
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bdtss.shiftlabtesttask.domain.model.RegistrationData
 import com.bdtss.shiftlabtesttask.domain.usecase.RegisterUseCase
@@ -25,21 +19,11 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     var passwordConfirmation = _passwordConfirmation.asStateFlow()
     var registrationIsSuccessful = _registrationIsSuccessful.asStateFlow()
 
-
-    init {
-        Log.e("AAA", "VM created")
-    }
-
-    override fun onCleared() {
-        Log.e("AAA", "VM cleared")
-        super.onCleared()
-    }
-
     fun register() {
-        val registrationData: RegistrationData = RegistrationData(
+        val registrationData = RegistrationData(
             name = name.value,
             surname = surname.value,
-            birthDate = Date(1), //TODO:change
+            birthDate = Date(2003, 7, 25), //TODO:change
             password = password.value,
             passwordConfirmation = passwordConfirmation.value
         );

@@ -3,36 +3,40 @@ package com.bdtss.shiftlabtesttask.data.storage
 import android.annotation.SuppressLint
 import android.content.Context
 import com.bdtss.shiftlabtesttask.domain.model.UserData
-import java.text.SimpleDateFormat
 import java.util.*
 
 private const val SHARED_PREFS_NAME = "shared_prefs_name"
-private const val SHARED_NAME_KEY = "firstName"
-private const val SHARED_SURNAME_KEY = "surname"
-private const val SHARED_BIRTH_DATE_KEY = "birthDate"
-private const val SHARED_PASSWORD_KEY = "password"
+private const val KEY_NAME = "firstName"
+private const val KEY_SURNAME = "surname"
+private const val KEY_BIRTH_DATE = "birthDate"
+private const val KEY_PASSWORD = "password"
 
 class SharedPrefUserStorage(context: Context) : UserStorage {
     private val sharedPreferences =
         context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
 
+    init {
+        println("storage init")
+    }
+
     @SuppressLint("CommitPrefEdits")
     override fun save(userData: UserData) {
-        sharedPreferences.edit().putString(SHARED_NAME_KEY, userData.name)
-        sharedPreferences.edit().putString(SHARED_SURNAME_KEY, userData.surname)
-        sharedPreferences.edit().putString(SHARED_BIRTH_DATE_KEY, userData.birthDate.toString())
-        sharedPreferences.edit().putString(SHARED_PASSWORD_KEY, userData.password)
-        println("All saved")
+        sharedPreferences
+            .edit()
+            .putString(KEY_NAME, userData.name)
+            .putString(KEY_SURNAME, userData.surname)
+            .putString(KEY_BIRTH_DATE, userData.birthDate.toString())
+            .putString(KEY_PASSWORD, userData.password)
+            .apply()
     }
 
     @SuppressLint("SimpleDateFormat")
     override fun get(): UserData {
-        val name = sharedPreferences.getString(SHARED_NAME_KEY, "") ?: ""
-        val surname = sharedPreferences.getString(SHARED_SURNAME_KEY, "") ?: ""
-        val birthDateStr = sharedPreferences.getString(SHARED_BIRTH_DATE_KEY, "") ?: ""
-        val password = sharedPreferences.getString(SHARED_PASSWORD_KEY, "") ?: ""
-        val birthDate = SimpleDateFormat("yyyy-MM-dd").parse(birthDateStr)
-        println("All returned")
+        val name = sharedPreferences.getString(KEY_NAME, "") ?: KEY_NAME
+        val surname = sharedPreferences.getString(KEY_SURNAME, "") ?: KEY_SURNAME
+        val birthDateStr = sharedPreferences.getString(KEY_BIRTH_DATE, "") ?: KEY_BIRTH_DATE
+        val password = sharedPreferences.getString(KEY_PASSWORD, "") ?: KEY_PASSWORD
+        val birthDate = Date(1) //SimpleDateFormat("yyyy-MM-dd").parse(birthDateStr)
         return UserData(
             name = name,
             surname = surname,
