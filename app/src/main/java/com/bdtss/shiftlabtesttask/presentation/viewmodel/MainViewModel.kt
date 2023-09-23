@@ -13,4 +13,5 @@ class MainViewModel(private val greetingUseCase: GetGreetingUseCase) : ViewModel
         Log.e("AAA", "VM cleared")
         super.onCleared()
     }
+
 }

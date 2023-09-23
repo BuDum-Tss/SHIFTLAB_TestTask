@@ -1,7 +1,11 @@
 package com.bdtss.shiftlabtesttask.domain.usecase;
 
-class GetGreetingUseCase {
+import com.bdtss.shiftlabtesttask.domain.repository.UserRepository
+
+class GetGreetingUseCase(private val userRepository: UserRepository) {
     fun execute(): String {
-        return "Hello, Name!"
+        val message = "Hello, " + userRepository.getUserData().name
+        println(message)
+        return message
     }
 }

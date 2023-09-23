@@ -43,7 +43,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
             password = password.value,
             passwordConfirmation = passwordConfirmation.value
         );
-        _registrationIsSuccessful.value=registerUseCase.execute(registrationData)
+        _registrationIsSuccessful.value = registerUseCase.execute(registrationData)
     }
 
     fun setName(name: String) {
