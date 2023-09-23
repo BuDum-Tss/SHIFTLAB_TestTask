@@ -27,7 +27,8 @@ fun RegistrationScreen(
     val surname = registrationViewModel.surname.collectAsState()
     val password = registrationViewModel.password.collectAsState()
     val passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
-
+    val passwordIsVisible = registrationViewModel.passwordIsVisible.collectAsState()
+    val passwordConfirmationIsVisible = registrationViewModel.passwordConfirmationIsVisible.collectAsState()
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -56,12 +57,18 @@ fun RegistrationScreen(
             labelText = "Password",
             placeholderText = "Enter the password",
             value = password.value,
-            onValueChange = { registrationViewModel.setPassword(it) })
+            onValueChange = { registrationViewModel.setPassword(it) },
+            showPassword = passwordIsVisible.value,
+            onClickIcon = { registrationViewModel.setPasswordVisible(!passwordIsVisible.value)}
+        )
         PasswordFieldCard(
             labelText = "Password confirmation",
             placeholderText = "Please, repeat the password",
             value = passwordConfirmation.value,
-            onValueChange = { registrationViewModel.setPassword(it) })
+            onValueChange = { registrationViewModel.setPasswordConfirmation(it) },
+            showPassword = passwordConfirmationIsVisible.value,
+            onClickIcon = { registrationViewModel.setPasswordConfirmationVisible(!passwordConfirmationIsVisible.value)}
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
@@ -76,7 +83,6 @@ fun RegistrationScreen(
         }
     }
 }
-
 @Composable
 fun TextFieldCard(
     labelText: String,
@@ -99,11 +105,10 @@ fun PasswordFieldCard(
     labelText: String,
     placeholderText: String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    showPassword : Boolean,
+    onClickIcon: ()->Unit
 ) {
-    var showPassword by remember {
-        mutableStateOf(false)
-    }
     Spacer(modifier = Modifier.height(8.dp))
     TextField(
         value = value,
@@ -117,7 +122,7 @@ fun PasswordFieldCard(
             )
         },
         trailingIcon = {
-            IconButton(onClick = { showPassword = !showPassword }) {
+            IconButton(onClick = onClickIcon) {
                 Icon(
                     imageVector = if (showPassword) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                     contentDescription = if (showPassword) "Show Password" else "Hide Password"

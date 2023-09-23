@@ -11,12 +11,16 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     private val _name = MutableStateFlow("")
     private val _surname = MutableStateFlow("")
     private val _password = MutableStateFlow("")
+    private val _passwordIsVisible = MutableStateFlow(false)
     private val _passwordConfirmation = MutableStateFlow("")
+    private val _passwordConfirmationIsVisible = MutableStateFlow(false)
     private val _registrationIsSuccessful = MutableStateFlow(false)
     val name = _name.asStateFlow()
     var surname = _surname.asStateFlow()
     var password = _password.asStateFlow()
+    var passwordIsVisible = _passwordIsVisible.asStateFlow()
     var passwordConfirmation = _passwordConfirmation.asStateFlow()
+    var passwordConfirmationIsVisible = _passwordConfirmationIsVisible.asStateFlow()
     var registrationIsSuccessful = _registrationIsSuccessful.asStateFlow()
 
     fun register() {
@@ -45,4 +49,12 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     fun setPasswordConfirmation(passwordConfirmation: String) {
         _passwordConfirmation.value = passwordConfirmation
     }
+
+    fun setPasswordVisible(visibility: Boolean) {
+        _passwordIsVisible.value = visibility
+    }
+    fun setPasswordConfirmationVisible(visibility: Boolean) {
+        _passwordConfirmationIsVisible.value = visibility
+    }
+
 }
