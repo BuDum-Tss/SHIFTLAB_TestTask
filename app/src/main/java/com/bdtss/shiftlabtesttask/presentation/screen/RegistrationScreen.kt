@@ -1,8 +1,13 @@
 package com.bdtss.shiftlabtesttask.presentation.screen
 
+import android.app.DatePickerDialog
+import android.content.Context
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -17,49 +22,63 @@ import androidx.navigation.NavController
 import com.bdtss.shiftlabtesttask.presentation.Screen
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 import com.bdtss.shiftlabtesttask.ui.theme.Purple700
+import java.util.*
 
 @Composable
 fun RegistrationScreen(
     navController: NavController,
-    registrationViewModel: RegistrationViewModel
+    registrationViewModel: RegistrationViewModel,
+    context: Context
 ) {
     val name = registrationViewModel.name.collectAsState()
     val surname = registrationViewModel.surname.collectAsState()
+    val birthDate = registrationViewModel.birthDate.collectAsState()
     val password = registrationViewModel.password.collectAsState()
     val passwordConfirmation = registrationViewModel.passwordConfirmation.collectAsState()
     val passwordIsVisible = registrationViewModel.passwordIsVisible.collectAsState()
-    val passwordConfirmationIsVisible = registrationViewModel.passwordConfirmationIsVisible.collectAsState()
+    val passwordConfirmationIsVisible =
+        registrationViewModel.passwordConfirmationIsVisible.collectAsState()
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 50.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Register",
             fontSize = 30.sp,
             color = Purple700,
-            modifier = Modifier.fillMaxWidth().align(Alignment.Start)
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Start)
         )
         TextFieldCard(
-            labelText ="Name",
+            labelText = "Name",
             placeholderText = "Enter your name",
             value = name.value,
             onValueChange = { registrationViewModel.setName(it) }
         )
         TextFieldCard(
-            labelText ="Surname",
+            labelText = "Surname",
             placeholderText = "Enter your surname",
             surname.value
         ) { registrationViewModel.setSurname(it) }
+        DateFieldCard(
+            labelText = "Birth date",
+            placeholderText = "Enter the date",
+            value = birthDate.value.toString(),
+            onValueChange = { registrationViewModel.setBirthDate(it) },
+            context = context
+        )
         PasswordFieldCard(
             labelText = "Password",
             placeholderText = "Enter the password",
             value = password.value,
             onValueChange = { registrationViewModel.setPassword(it) },
             showPassword = passwordIsVisible.value,
-            onClickIcon = { registrationViewModel.setPasswordVisible(!passwordIsVisible.value)}
+            onClickIcon = { registrationViewModel.setPasswordVisible(!passwordIsVisible.value) }
         )
         PasswordFieldCard(
             labelText = "Password confirmation",
@@ -67,7 +86,7 @@ fun RegistrationScreen(
             value = passwordConfirmation.value,
             onValueChange = { registrationViewModel.setPasswordConfirmation(it) },
             showPassword = passwordConfirmationIsVisible.value,
-            onClickIcon = { registrationViewModel.setPasswordConfirmationVisible(!passwordConfirmationIsVisible.value)}
+            onClickIcon = { registrationViewModel.setPasswordConfirmationVisible(!passwordConfirmationIsVisible.value) }
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
@@ -81,8 +100,10 @@ fun RegistrationScreen(
         ) {
             Text(text = "Register")
         }
+        Spacer(modifier = Modifier.height(50.dp))
     }
 }
+
 @Composable
 fun TextFieldCard(
     labelText: String,
@@ -106,8 +127,8 @@ fun PasswordFieldCard(
     placeholderText: String,
     value: String,
     onValueChange: (String) -> Unit,
-    showPassword : Boolean,
-    onClickIcon: ()->Unit
+    showPassword: Boolean,
+    onClickIcon: () -> Unit
 ) {
     Spacer(modifier = Modifier.height(8.dp))
     TextField(
@@ -130,6 +151,48 @@ fun PasswordFieldCard(
             }
         },
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+
+@Composable
+fun DateFieldCard(
+    labelText: String,
+    placeholderText: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    context: Context
+) {
+    Spacer(modifier = Modifier.height(8.dp))
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = labelText) },
+        placeholder = { Text(text = placeholderText) },
+        trailingIcon = {
+            IconButton(onClick = {
+                val c = Calendar.getInstance()
+                val currentYear = c.get(Calendar.YEAR)
+                val currentMonth = c.get(Calendar.MONTH)
+                val currentDay = c.get(Calendar.DAY_OF_MONTH)
+                val dpd = DatePickerDialog(
+                    context,
+                    { _, year, month, day ->
+                        onValueChange("$day.$month.$year")
+                    },
+                    currentYear,
+                    currentMonth,
+                    currentDay
+                )
+                dpd.show()
+            }) {
+                Icon(
+                    imageVector = Icons.Outlined.DateRange,
+                    contentDescription = "Select a date"
+                )
+            }
+        },
         modifier = Modifier.fillMaxWidth()
     )
 }

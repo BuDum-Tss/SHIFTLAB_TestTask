@@ -1,5 +1,6 @@
 package com.bdtss.shiftlabtesttask.presentation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,7 +11,7 @@ import com.bdtss.shiftlabtesttask.presentation.viewmodel.MainViewModel
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 
 @Composable
-fun Navigation(registrationViewModel: RegistrationViewModel, mainViewModel: MainViewModel) {
+fun Navigation(registrationViewModel: RegistrationViewModel, mainViewModel: MainViewModel, context: Context) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -19,7 +20,8 @@ fun Navigation(registrationViewModel: RegistrationViewModel, mainViewModel: Main
         composable(route = Screen.RegistrationScreen.route) {
             RegistrationScreen(
                 navController = navController,
-                registrationViewModel = registrationViewModel
+                registrationViewModel = registrationViewModel,
+                context = context
             )
         }
         composable(route = Screen.MainScreen.route) {

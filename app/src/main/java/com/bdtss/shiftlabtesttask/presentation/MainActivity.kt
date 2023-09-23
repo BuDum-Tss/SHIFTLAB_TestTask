@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             Navigation(
                 registrationViewModel = registrationViewModel,
-                mainViewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                this
             )
         }
 

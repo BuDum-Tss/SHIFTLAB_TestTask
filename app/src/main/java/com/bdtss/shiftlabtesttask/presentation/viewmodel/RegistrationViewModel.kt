@@ -10,6 +10,7 @@ import java.util.*
 class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {
     private val _name = MutableStateFlow("")
     private val _surname = MutableStateFlow("")
+    private val _birthDate = MutableStateFlow("")
     private val _password = MutableStateFlow("")
     private val _passwordIsVisible = MutableStateFlow(false)
     private val _passwordConfirmation = MutableStateFlow("")
@@ -17,6 +18,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     private val _registrationIsSuccessful = MutableStateFlow(false)
     val name = _name.asStateFlow()
     var surname = _surname.asStateFlow()
+    val birthDate = _birthDate.asStateFlow()
     var password = _password.asStateFlow()
     var passwordIsVisible = _passwordIsVisible.asStateFlow()
     var passwordConfirmation = _passwordConfirmation.asStateFlow()
@@ -27,13 +29,12 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
         val registrationData = RegistrationData(
             name = name.value,
             surname = surname.value,
-            birthDate = Date(2003, 7, 25), //TODO:change
+            birthDate = birthDate.value,
             password = password.value,
             passwordConfirmation = passwordConfirmation.value
         );
         _registrationIsSuccessful.value = registerUseCase.execute(registrationData)
     }
-
     fun setName(name: String) {
         _name.value = name
     }
@@ -41,18 +42,21 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     fun setSurname(surname: String) {
         _surname.value = surname
     }
+    fun setBirthDate(birthDate: String) {
+        _birthDate.value=birthDate
+    }
 
     fun setPassword(password: String) {
         _password.value = password
+    }
+    fun setPasswordVisible(visibility: Boolean) {
+        _passwordIsVisible.value = visibility
     }
 
     fun setPasswordConfirmation(passwordConfirmation: String) {
         _passwordConfirmation.value = passwordConfirmation
     }
 
-    fun setPasswordVisible(visibility: Boolean) {
-        _passwordIsVisible.value = visibility
-    }
     fun setPasswordConfirmationVisible(visibility: Boolean) {
         _passwordConfirmationIsVisible.value = visibility
     }
