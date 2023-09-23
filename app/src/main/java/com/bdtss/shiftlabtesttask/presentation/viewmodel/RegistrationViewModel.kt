@@ -24,7 +24,6 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     var passwordConfirmation = _passwordConfirmation.asStateFlow()
     var passwordConfirmationIsVisible = _passwordConfirmationIsVisible.asStateFlow()
     var registrationIsSuccessful = _registrationIsSuccessful.asStateFlow()
-
     fun register() {
         val registrationData = RegistrationData(
             name = name.value,
