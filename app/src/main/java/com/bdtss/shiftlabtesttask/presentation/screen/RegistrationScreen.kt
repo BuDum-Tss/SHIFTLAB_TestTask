@@ -2,10 +2,11 @@ package com.bdtss.shiftlabtesttask.presentation.screen
 
 import android.app.DatePickerDialog
 import android.content.Context
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DateRange
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bdtss.shiftlabtesttask.presentation.Screen
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
+import com.bdtss.shiftlabtesttask.ui.theme.Purple500
 import com.bdtss.shiftlabtesttask.ui.theme.Purple700
 import java.util.*
 
@@ -41,6 +44,7 @@ fun RegistrationScreen(
     val passwordIsVisible = registrationViewModel.passwordIsVisible.collectAsState()
     val passwordConfirmationIsVisible =
         registrationViewModel.passwordConfirmationIsVisible.collectAsState()
+    val errorMessage = registrationViewModel.errorMessage.collectAsState()
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -102,6 +106,28 @@ fun RegistrationScreen(
             modifier = Modifier.align(Alignment.End)
         ) {
             Text(text = "Register")
+        }
+        if (errorMessage.value != "") {
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(corner = CornerSize(size = 30f)))
+                    .border(
+                        width = 2.dp,
+                        color = Purple500,
+                        shape = RoundedCornerShape(corner = CornerSize(size = 30f))
+                    )
+            ) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = errorMessage.value,
+                    color = Purple700,
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+            }
         }
         Spacer(modifier = Modifier.height(50.dp))
     }

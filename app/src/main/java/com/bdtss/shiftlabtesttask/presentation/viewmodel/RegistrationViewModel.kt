@@ -2,6 +2,7 @@ package com.bdtss.shiftlabtesttask.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.bdtss.shiftlabtesttask.domain.model.RegistrationData
+import com.bdtss.shiftlabtesttask.domain.model.RegistrationResult
 import com.bdtss.shiftlabtesttask.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +17,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     private val _passwordConfirmation = MutableStateFlow("")
     private val _passwordConfirmationIsVisible = MutableStateFlow(false)
     private val _registrationIsSuccessful = MutableStateFlow(false)
+    private val _errorMessage = MutableStateFlow("")
     val name = _name.asStateFlow()
     var surname = _surname.asStateFlow()
     val birthDate = _birthDate.asStateFlow()
@@ -24,6 +26,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     var passwordConfirmation = _passwordConfirmation.asStateFlow()
     var passwordConfirmationIsVisible = _passwordConfirmationIsVisible.asStateFlow()
     var registrationIsSuccessful = _registrationIsSuccessful.asStateFlow()
+    var errorMessage = _errorMessage.asStateFlow()
     fun register() {
         val registrationData = RegistrationData(
             name = name.value,
@@ -31,8 +34,10 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
             birthDate = birthDate.value,
             password = password.value,
             passwordConfirmation = passwordConfirmation.value
-        );
-        _registrationIsSuccessful.value = registerUseCase.execute(registrationData).isSuccessful
+        )
+        val registrationResult = registerUseCase.execute(registrationData)
+        _registrationIsSuccessful.value = registrationResult.isSuccessful
+        _errorMessage.value = registrationResult.message
     }
     fun setName(name: String) {
         _name.value = name
