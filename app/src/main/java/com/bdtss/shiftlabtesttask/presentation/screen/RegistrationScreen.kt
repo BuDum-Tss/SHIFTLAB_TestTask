@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,8 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -117,6 +120,7 @@ fun TextFieldCard(
         onValueChange = onValueChange,
         label = { Text(text = labelText) },
         placeholder = { Text(text = placeholderText) },
+        keyboardOptions = KeyboardOptions(KeyboardCapitalization.Words),
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -151,6 +155,7 @@ fun PasswordFieldCard(
             }
         },
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -193,6 +198,7 @@ fun DateFieldCard(
                 )
             }
         },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = Modifier.fillMaxWidth()
     )
 }
