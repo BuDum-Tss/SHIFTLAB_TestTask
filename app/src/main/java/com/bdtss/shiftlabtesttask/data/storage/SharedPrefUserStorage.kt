@@ -2,6 +2,7 @@ package com.bdtss.shiftlabtesttask.data.storage
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import com.bdtss.shiftlabtesttask.domain.model.UserData
 import java.util.*
 
@@ -25,7 +26,7 @@ class SharedPrefUserStorage(context: Context) : UserStorage {
             .edit()
             .putString(KEY_NAME, userData.name)
             .putString(KEY_SURNAME, userData.surname)
-            .putString(KEY_BIRTH_DATE, userData.birthDate.toString())
+            .putString(KEY_BIRTH_DATE, SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(userData.birthDate))
             .putString(KEY_PASSWORD, userData.password)
             .apply()
     }
@@ -36,11 +37,11 @@ class SharedPrefUserStorage(context: Context) : UserStorage {
         val surname = sharedPreferences.getString(KEY_SURNAME, "") ?: KEY_SURNAME
         val birthDateStr = sharedPreferences.getString(KEY_BIRTH_DATE, "") ?: KEY_BIRTH_DATE
         val password = sharedPreferences.getString(KEY_PASSWORD, "") ?: KEY_PASSWORD
-        val birthDate = Date(1) //SimpleDateFormat("yyyy-MM-dd").parse(birthDateStr)
+        val birthDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(birthDateStr)
         return UserData(
             name = name,
             surname = surname,
-            birthDate = birthDate as Date,
+            birthDate = birthDate,
             password = password
         )
     }

@@ -75,7 +75,7 @@ fun RegistrationScreen(
         DateFieldCard(
             labelText = "Birth date",
             placeholderText = "Enter the date",
-            value = birthDate.value.toString(),
+            value = birthDate.value,
             onValueChange = { registrationViewModel.setBirthDate(it) },
             context = context
         )
@@ -103,32 +103,13 @@ fun RegistrationScreen(
                     navController.navigate(Screen.MainScreen.route)
                 }
             },
-            enabled = name.value != "" && surname.value!="" && birthDate.value !="" && password.value != "" && passwordConfirmation.value != "",
+            enabled = name.value != "" && surname.value != "" && birthDate.value != "" && password.value != "" && passwordConfirmation.value != "",
             modifier = Modifier.align(Alignment.End)
         ) {
             Text(text = "Register")
         }
         if (errorMessage.value != "") {
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(corner = CornerSize(size = 30f)))
-                    .border(
-                        width = 2.dp,
-                        color = Purple500,
-                        shape = RoundedCornerShape(corner = CornerSize(size = 30f))
-                    )
-            ) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = errorMessage.value,
-                    color = Purple700,
-                    fontSize = 18.sp,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-            }
+            ErrorMessageCard(errorMessage.value)
         }
         Spacer(modifier = Modifier.height(50.dp))
     }
@@ -228,4 +209,30 @@ fun DateFieldCard(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Composable
+fun ErrorMessageCard(text: String) {
+    Spacer(modifier = Modifier.height(8.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(corner = CornerSize(size = 30f)))
+            .border(
+                width = 2.dp,
+                color = Purple500,
+                shape = RoundedCornerShape(corner = CornerSize(size = 30f))
+            )
+    ) {
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = text,
+            color = Purple700,
+            fontSize = 18.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+    }
 }

@@ -15,6 +15,7 @@ class MainActivity : ComponentActivity() {
     private val userRepository by lazy(LazyThreadSafetyMode.NONE) {
         UserRepositoryImpl(userStorage = SharedPrefUserStorage(this))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val registrationViewModel = ViewModelProvider(
             this,

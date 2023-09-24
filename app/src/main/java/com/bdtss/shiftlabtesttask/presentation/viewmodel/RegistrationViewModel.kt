@@ -39,6 +39,7 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
         _registrationIsSuccessful.value = registrationResult.isSuccessful
         _errorMessage.value = registrationResult.message
     }
+
     fun setName(name: String) {
         _name.value = name
     }
@@ -46,13 +47,15 @@ class RegistrationViewModel(private val registerUseCase: RegisterUseCase) : View
     fun setSurname(surname: String) {
         _surname.value = surname
     }
+
     fun setBirthDate(birthDate: String) {
-        _birthDate.value=birthDate
+        _birthDate.value = birthDate
     }
 
     fun setPassword(password: String) {
         _password.value = password
     }
+
     fun setPasswordVisible(visibility: Boolean) {
         _passwordIsVisible.value = visibility
     }

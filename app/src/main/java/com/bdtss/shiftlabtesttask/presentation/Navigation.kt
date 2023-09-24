@@ -11,7 +11,11 @@ import com.bdtss.shiftlabtesttask.presentation.viewmodel.MainViewModel
 import com.bdtss.shiftlabtesttask.presentation.viewmodel.RegistrationViewModel
 
 @Composable
-fun Navigation(registrationViewModel: RegistrationViewModel, mainViewModel: MainViewModel, context: Context) {
+fun Navigation(
+    registrationViewModel: RegistrationViewModel,
+    mainViewModel: MainViewModel,
+    context: Context
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,

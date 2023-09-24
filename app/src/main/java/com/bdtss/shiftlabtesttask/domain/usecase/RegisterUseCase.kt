@@ -10,9 +10,6 @@ import java.util.*
 
 class RegisterUseCase(private val userRepository: UserRepository) {
     fun execute(data: RegistrationData): RegistrationResult {
-        //TODO: add checks of data
-        //TODO: hash passwords
-        //TODO: parse date
         val nameIsValid = checkName(data.name)
         if (!nameIsValid) return RegistrationResult(
             false,
@@ -29,12 +26,11 @@ class RegisterUseCase(private val userRepository: UserRepository) {
                 "The date should be in the format:\"dd.MM.yyyy\""
             )
         val passwordIsValid = checkPassword(data.password)
-        if (!passwordIsValid)  return RegistrationResult(
+        if (!passwordIsValid) return RegistrationResult(
             false,
             "The password must contain at least 1 uppercase and 1 lowercase Latin letter, a number and a special sign"
         )
-        val result = data.password == data.passwordConfirmation
-        if (!result) return RegistrationResult(false, "Passwords don't match")
+        if (data.password != data.passwordConfirmation) return RegistrationResult(false, "Passwords don't match")
         userRepository.saveUserData(
             UserData(
                 data.name,
@@ -43,7 +39,6 @@ class RegisterUseCase(private val userRepository: UserRepository) {
                 data.password
             )
         )
-        println("Data: " + data.name)
         return RegistrationResult(true, "")
     }
 
@@ -57,13 +52,14 @@ class RegisterUseCase(private val userRepository: UserRepository) {
 
     private fun parseDate(text: String): Date? {
         val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val date : Date? = try {
+        val date: Date? = try {
             formatter.parse(text)
         } catch (e: ParseException) {
             null
         }
         return date
     }
+
     private fun checkPassword(text: String): Boolean {
         return text.length > 6 &&
                 text.contains(regex = Regex("[a-z]")) &&
