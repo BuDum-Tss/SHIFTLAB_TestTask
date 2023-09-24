@@ -103,6 +103,7 @@ fun RegistrationScreen(
                     navController.navigate(Screen.MainScreen.route)
                 }
             },
+            enabled = name.value != "" && surname.value!="" && birthDate.value !="" && password.value != "" && passwordConfirmation.value != "",
             modifier = Modifier.align(Alignment.End)
         ) {
             Text(text = "Register")
