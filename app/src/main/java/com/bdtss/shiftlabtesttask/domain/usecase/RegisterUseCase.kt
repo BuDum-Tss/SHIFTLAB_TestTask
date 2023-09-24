@@ -28,7 +28,7 @@ class RegisterUseCase(private val userRepository: UserRepository) {
         val passwordIsValid = checkPassword(data.password)
         if (!passwordIsValid) return RegistrationResult(
             false,
-            "The password must contain at least 1 uppercase and 1 lowercase Latin letter, a number and a special sign"
+            "The password must contain at least 1 uppercase and 1 lowercase Letter letter, a number and a special signs and include more than 6 characters"
         )
         if (data.password != data.passwordConfirmation) return RegistrationResult(false, "Passwords don't match")
         userRepository.saveUserData(
